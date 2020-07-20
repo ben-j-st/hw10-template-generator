@@ -36,16 +36,6 @@ const teamMember = [];
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work! ```
 
-
-// Pseudo code
-
-// ask user if they want to add an engineer ,manager, student. 
-// ask specific question based around the role (school for student ect)
-// create a new object from the specific class filling in the needed information
-// ask if the user wants to add another employee
-// push the new object to the storage array 
-// call the render function() 
-// create the html file using appendFile()
 let idDefault = 1000;
 
 function check() {
@@ -101,7 +91,6 @@ function manager() {
         }
     ])
 }
-
 
 function engineer() {
     return inquirer
@@ -211,6 +200,5 @@ function replay() {
         }
     })
 }
-
 
 replay()
