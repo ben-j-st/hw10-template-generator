@@ -71,7 +71,6 @@ function manager() {
     ])
 }
 
-// class specific questions
 function engineer() {
     return inquirer
     .prompt([
@@ -83,7 +82,6 @@ function engineer() {
     ])
 }
 
-// class specific questions
 function intern() {
     return inquirer
     .prompt([
@@ -140,18 +138,24 @@ function checkAndCreate() {
     }
 }
 
+// function to be called on loop until enough members are added
 function replay() {
     check()
     .then(function(confirm) {
+        //run if statment to check if user wants more team members, if not run checkAndCreate
         if (confirm.add === true) {
+            //first ask the employee questions
             employee().then(function(employee) {
+                // storage variable for holding the type of employee
                 const test = employee.type
+                //switch to test what code needs to run depending on employee type
                 switch (test) {
                     case "Manager":
+                        // runs the manager specific questions and then creates a new instance of the manager class to populate
                         manager().then(function(manager) {
                             const newManager = new Manager(employee.name, employee.id, employee.email, manager.officeNum) 
                             teamMember.push(newManager);
-                            console.log(teamMember);
+                            // starts the loop again
                             replay();
                         }) 
                         .catch((err) => {if (err) throw err})
@@ -161,7 +165,6 @@ function replay() {
                         engineer().then(function(engineer) {
                             const newEngineer = new Engineer(employee.name, employee.id, employee.email, engineer.github) 
                             teamMember.push(newEngineer);
-                            console.log(teamMember);
                             replay();
                         }) 
                         .catch((err) => {if (err) throw err})
@@ -171,7 +174,6 @@ function replay() {
                         intern().then(function(intern) {
                             const newIntern = new Intern(employee.name, employee.id, employee.email, intern.school) 
                             teamMember.push(newIntern);
-                            console.log(teamMember);
                             replay();
                         }) 
                         .catch((err) => {if (err) throw err})
@@ -182,6 +184,7 @@ function replay() {
                 }
             }).catch((err) => {if (err) throw err})   
         } else {
+            // runs only when the user 
             checkAndCreate();
         }
     })
