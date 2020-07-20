@@ -38,6 +38,7 @@ const teamMember = [];
 
 let idDefault = 1000;
 
+// check function for confirming if user wants to add team members 
 function check() {
    return inquirer
     .prompt([
@@ -48,7 +49,7 @@ function check() {
         }
     ])
 }
-
+// questions specific to the employee class
 function employee() {
     idDefault++
     return inquirer
@@ -82,6 +83,7 @@ function employee() {
     ])
 }
 
+// class specific questions
 function manager() {
     return inquirer
     .prompt([
@@ -92,6 +94,7 @@ function manager() {
     ])
 }
 
+// class specific questions
 function engineer() {
     return inquirer
     .prompt([
@@ -103,6 +106,7 @@ function engineer() {
     ])
 }
 
+// class specific questions
 function intern() {
     return inquirer
     .prompt([
@@ -113,6 +117,7 @@ function intern() {
     ])
 }
 
+// function for created dir
 function makeDir(dir) {
     return new Promise((resolve, reject) => {
         //  creates the outpath directory, recursive prevents an error when the dir you are creating already exists
@@ -120,12 +125,14 @@ function makeDir(dir) {
             if (err) {
                 reject(err)
             } else {
+                console.log("directory was created successfully")
                 resolve(dir)
             }
         });
     })
 }
 
+// function that runs render and writes a new html file
 function writeFile(html) {
     return new Promise((resolve, reject) => {
         // write members to file 
@@ -133,12 +140,15 @@ function writeFile(html) {
             if (err) {
                 reject(err);
             } else {
+                console.log("File was created successfully")
                 resolve(html)
             }
         })
     })
 }
-function renderer() {
+
+// function to check if array has anything in it. and hold creation functions
+function checkAndCreate() {
     if (teamMember.length != 0) {
         console.log("team member length worked like expected")
 
@@ -154,7 +164,6 @@ function renderer() {
 }
 
 function replay() {
-    console.log(teamMember.length)
     check()
     .then(function(confirm) {
         if (confirm.add === true) {
@@ -196,7 +205,7 @@ function replay() {
                 }
             }).catch((err) => {if (err) throw err})   
         } else {
-            renderer();
+            checkAndCreate();
         }
     })
 }
