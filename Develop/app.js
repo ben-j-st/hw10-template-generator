@@ -10,6 +10,8 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+const teamMember = []
+
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
@@ -44,3 +46,129 @@ const render = require("./lib/htmlRenderer");
 // push the new object to the storage array 
 // call the render function() 
 // create the html file using appendFile()
+let idDefault = 1000;
+
+function check() {
+   return inquirer
+    .prompt([
+        {
+            name:"add",
+            type: "confirm",
+            message: "Would you like to add an Employee?",
+        }
+    ])
+}
+
+function employee() {
+    idDefault++
+    return inquirer
+    .prompt([
+        {
+            name: "type",
+            type:"list",
+            message: "What kind of Employee would you like to add?",
+            choices: [
+                "Manager",
+                "Engineer",
+                "Intern",
+            ]
+        },
+        {
+            name:"name",
+            message: "What is the employees name?",
+         
+        },
+        {
+            name:"id",
+            message: "What is the employees id?",
+            default: `${idDefault}`,
+         
+        },
+        {
+            name:"email",
+            message: "What is the employees email?",
+         
+        }
+    ])
+}
+
+function manager() {
+    return inquirer
+    .prompt([
+        {
+            name:"officeNum",
+            message: "What is the managers office number?",
+         
+        }
+    ])
+}
+
+
+function engineer() {
+    return inquirer
+    .prompt([
+        {
+            name:"github",
+            message: "What is the engineers github username?",
+         
+        }
+    ])
+}
+
+function intern() {
+    return inquirer
+    .prompt([
+        {
+            name:"school",
+            message: "What school did the intern attend?",
+         
+        }
+    ])
+}
+
+function replay() {
+    check()
+    .then(function(confirm) {
+        if (confirm.add === true) {
+            employee().then(function(employee) {
+                const test = employee.type
+                switch (test) {
+                    case "Manager":
+                        manager().then(function(manager) {
+                            const newManager = new Manager(employee.name, employee.id, employee.email, manager.officeNum) 
+                            teamMember.push(newManager);
+                            console.log(teamMember);
+                            replay();
+                        }) 
+                        .catch((err) => {if (err) throw err})
+                        break;
+                    
+                    case "Engineer":
+                        engineer().then(function(engineer) {
+                            const newEngineer = new Engineer(employee.name, employee.id, employee.email, engineer.github) 
+                            teamMember.push(newEngineer);
+                            console.log(teamMember);
+                            replay();
+                        }) 
+                        .catch((err) => {if (err) throw err})
+                        break;
+
+                    case "Intern":
+                        intern().then(function(intern) {
+                            const newIntern = new Intern(employee.name, employee.id, employee.email, intern.school) 
+                            teamMember.push(newIntern);
+                            console.log(teamMember);
+                            replay();
+                        }) 
+                        .catch((err) => {if (err) throw err})
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }).catch((err) => {if (err) throw err})   
+        } 
+    })
+}
+
+replay()
