@@ -10,7 +10,7 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-const teamMember = []
+const teamMember = [];
 
 
 // Write code to use inquirer to gather information about the development team members,
@@ -98,7 +98,6 @@ function manager() {
         {
             name:"officeNum",
             message: "What is the managers office number?",
-         
         }
     ])
 }
@@ -121,12 +120,52 @@ function intern() {
         {
             name:"school",
             message: "What school did the intern attend?",
-         
         }
     ])
 }
 
+function makeDir(dir) {
+    return new Promise((resolve, reject) => {
+        //  creates the outpath directory, recursive prevents an error when the dir you are creating already exists
+        fs.mkdir(dir, { recursive: true }, (err) => {
+            if (err) {
+                reject(err)
+            } else {
+                resolve(dir)
+            }
+        });
+    })
+}
+
+function writeFile(html) {
+    return new Promise((resolve, reject) => {
+        // write members to file 
+        fs.writeFile(outputPath, html, "utf8", (err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(html)
+            }
+        })
+    })
+}
+function renderer() {
+    if (teamMember.length != 0) {
+        console.log("team member length worked like expected")
+
+        //call function to make directory
+        makeDir(OUTPUT_DIR)
+
+        //call write file function, passing in the render function and team member array 
+        writeFile(render(teamMember));
+       
+    } else {
+        console.log("rendered did not work like expected")
+    }
+}
+
 function replay() {
+    console.log(teamMember.length)
     check()
     .then(function(confirm) {
         if (confirm.add === true) {
@@ -162,13 +201,16 @@ function replay() {
                         }) 
                         .catch((err) => {if (err) throw err})
                         break;
-                        
+
                     default:
                         break;
                 }
             }).catch((err) => {if (err) throw err})   
-        } 
+        } else {
+            renderer();
+        }
     })
 }
+
 
 replay()
