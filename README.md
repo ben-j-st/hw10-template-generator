@@ -48,4 +48,8 @@ Email: ben_j_stephens@hotmail.com
 
 ## Screenshot 
 
-![alt name](file location)
+![Screenshot](Assets/profile-generator.PNG)
+
+## Link to the video 
+
+<a href="https://drive.google.com/file/d/1e3qyjl3boyvj9suU5b-tgQowE66dqZU9/view">Team Profile Generator</a>
